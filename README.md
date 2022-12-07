@@ -10,6 +10,7 @@ This project requires node. We are using node v18.12.
 ## Usage
 
 There is no usage method yet.
+To build and run the container use `docker compose up`
 
 
 ## Contributing
