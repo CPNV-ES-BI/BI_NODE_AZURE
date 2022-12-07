@@ -5,9 +5,12 @@ Manage cloud dataobjects
 
 This project requires node. We are using node v18.12. 
 
+`npm install`
+
 ## Usage
 
 There is no usage method yet.
+
 
 ## Contributing
 
