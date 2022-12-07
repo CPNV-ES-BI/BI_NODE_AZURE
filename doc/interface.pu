@@ -1,0 +1,8 @@
+@startuml
+Interface dataobject{
+  exists()
+  create()
+  download()
+  publish()
+}
+@enduml
