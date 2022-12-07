@@ -5,9 +5,9 @@
  */
 
 
-let DataObject 
+let DataObject = require('../src/models/dataobject.js').DataObject
 
-test("DoesExist_ExistsCase_True",()=>{
+test("DoesExist_ExistsCase_True",() => {
   //given
 
   //when
@@ -85,5 +85,5 @@ test("PublishObject_ObjectNotFound_ThrowException", () => {
   //when
 
   //then
-  
+
 });
