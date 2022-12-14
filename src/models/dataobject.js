@@ -10,7 +10,7 @@ class DataObject {
 
   name = null
 
-  static all(){ return [] }
+  static all(){}
   exists(){}
   create(){}
   download(){}
