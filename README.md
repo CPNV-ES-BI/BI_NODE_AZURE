@@ -1,4 +1,5 @@
 # BI1 - node-azure
+
 Manage cloud dataobjects
 
 ## Installation
@@ -10,7 +11,6 @@ This project requires node. We are using node v18.12.
 ## Usage
 
 There is no usage method yet.
-
 
 ## Contributing
 
