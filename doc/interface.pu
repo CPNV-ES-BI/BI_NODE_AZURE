@@ -1,8 +1,10 @@
 @startuml
 Interface dataobject{
+  all()
   exists()
   create()
   download()
   publish()
+  delete()
 }
 @enduml

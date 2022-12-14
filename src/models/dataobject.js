@@ -7,10 +7,20 @@
 "use strict";
 
 class DataObject {
+
+  name = null
+
+  all(){}
   exists(){}
   create(){}
   download(){}
   publish(){}
+  delete(){}
 }
 
+class DataObjectAlreadyExistsException extends Error {}
+class DataObjectNotFoundException extends Error {}
+
 module.exports.DataObject = DataObject;
+module.exports.DataObjectAlreadyExistsException = DataObjectAlreadyExistsException;
+module.exports.DataObjectNotFoundException = DataObjectNotFoundException;
