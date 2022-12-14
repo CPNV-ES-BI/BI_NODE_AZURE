@@ -6,9 +6,9 @@
 
 "use strict";
 
-let DataObject = require('../src/models/dataobject.js').DataObject
-let DataObjectAlreadyExistsException = require('../src/models/dataobject.js').DataObjectAlreadyExistsException
-let DataObjectNotFoundException = require('../src/models/dataobject.js').DataObjectNotFoundException
+let DataObject = require('../src/models/DataObject.js').DataObject
+let DataObjectAlreadyExistsException = require('../src/models/DataObject.js').DataObjectAlreadyExistsException
+let DataObjectNotFoundException = require('../src/models/DataObject.js').DataObjectNotFoundException
 
 let dataObject = null;
 let existingDataObject = null;
@@ -142,4 +142,13 @@ test("DeleteObject_ObjectNotFound_ObjectDeleted", () => {
 
   //then
   expect(dataObject.delete()).toBe(false);
+});
+
+test("All_NominalCase_ReturnAllObjects", () => {
+  //given
+
+  //when
+
+  //then
+  expect(DataObject.all()).toBeInstanceOf(Array);
 });
