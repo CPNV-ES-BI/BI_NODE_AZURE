@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  bi1helloworld:
-    image: bi1helloworld
+  bi1nodeazure:
+    image: bi1nodeazure
     build:
       context: .
       dockerfile: ./Dockerfile
