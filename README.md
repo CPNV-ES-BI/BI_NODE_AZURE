@@ -1,6 +1,6 @@
 # BI1 - node-azure
 
-Manage cloud dataobjects
+This is a microservice written in javascript whose purpose is to us Azure as data source for Business Intelligence.
 
 ## Installation
 
@@ -19,11 +19,27 @@ This project is using a `.env` file to store to connection sting to Azure. An sa
 ## Usage
 
 There is no usage method yet.
-To build and run the container use `docker compose up`
+To build and run the container use `docker compose up`.
+
+## Testing
+
+To run test you can just run `npm run test`.
 
 ## File structure
 
-TODO
+```
++---doc // directory where you can find the documentation of the project   
+|
++---routes // directory where you can find the routes files
+|       
++---src
+|   +---controllers
+|   |       
+|   +---helpers
+|   |       
+|   \---models       
+\---tests
+```
 
 ## Contributing
 
