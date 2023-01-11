@@ -54,5 +54,6 @@ All other requests are welcome by issues.
 [MIT](https://github.com/CPNV-ES-BI/BI_NODE_AZURE/blob/main/LICENSE)
 
 ## Authors
+
 * [SemicolonManifest](https://github.com/SemicolonManifest)
 * [HDubuis](https://github.com/HDubuis)
