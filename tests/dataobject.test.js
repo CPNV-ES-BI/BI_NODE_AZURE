@@ -11,67 +11,65 @@ let DataObjectAlreadyExistsException = require('../src/models/DataObject.js').Da
 let DataObjectNotFoundException = require('../src/models/DataObject.js').DataObjectNotFoundException
 
 let dataObject = null;
-let existingDataObject = null;
 
-let existingDataObjectName = 'testExistingDataObject';
+let DataObjectName = 'theDataObject';
 
 beforeAll(()=>{
-  existingDataObject = new DataObject();
-  existingDataObject.name = existingDataObjectName;
-  existingDataObject.create();
+  dataObject = new DataObject(DataObjectName);
+  dataObject.create();
 })
 
 afterAll(() => {
-  existingDataObjectName.delete();
+  if (dataObject.exists()) dataObject.delete();
 });
 
-beforeEach(() => {
-  dataObject = new DataObject();
-})
-
-afterEach(() => {
-  dataObject.delete();
-})
-
-test("DoesExist_ExistsCase_True",() => {
+test("All_NominalCase_ReturnAllObjects", () => {
   //given
-  dataObject.name = existingDataObjectName;
+
   //when
 
   //then
-  expect(dataObject.exists()).toBe(true);
-});
-
-test("DoesExist_NotExists_False", () => {
-  //given
-  dataObject.name = "notTestDataObject";
-  //when
-
-  //then
-  expect(dataObject.exists()).toBe(false);
-
+  expect(DataObject.all()).toBeInstanceOf(Array);
 });
 
 test("CreateObject_NominalCase_ObjectExists", () => {
   //given
-  dataObject.name = "testNewDataObject"
+
+  let newDataObject = new DataObject("testNewDataObject");
   //when
-  dataObject.create();
+  newDataObject.create();
   //then
-  expect(dataObject.exists()).toBe(true);
+  expect(newDataObject.exists()).toBe(true);
+  // tear down
+  newDataObject.delete();
 });
 
 test("CreateObject_AlreadyExists_ThrowException", () => {
   //given
-  dataObject.name = "testNewDataObject";
-  dataObject.create();
+
   //when
 
   //then
   expect(() => {
     dataObject.create();
   }).toThrow(DataObjectAlreadyExistsException);
+});
 
+test("DoesExist_NotExists_False", () => {
+  //given
+  let notExistingDataObject = new DataObject("notExistingDataObject");
+  //when
+
+  //then
+  expect(notExistingDataObject.exists()).toBe(false);
+});
+
+test("DoesExist_ExistsCase_True",() => {
+  //given
+  //when
+
+  //then
+  expect(dataObject.exists()).toBe(true);
 });
 
 test("CreateObject_PathNotExists_ObjectExists", () => { // TODO - understand the test
@@ -142,13 +140,4 @@ test("DeleteObject_ObjectNotFound_ObjectDeleted", () => {
 
   //then
   expect(dataObject.delete()).toBe(false);
-});
-
-test("All_NominalCase_ReturnAllObjects", () => {
-  //given
-
-  //when
-
-  //then
-  expect(DataObject.all()).toBeInstanceOf(Array);
 });
