@@ -9,12 +9,14 @@
 class DataObject {
 
   name = null
-
+  constructor(name) {
+    this.name = name;
+  }
   static all(){}
   exists(){}
-  create(){}
+  create(name){}
   download(){}
-  publish(){}
+  publish(name){}
   delete(){}
 }
 
