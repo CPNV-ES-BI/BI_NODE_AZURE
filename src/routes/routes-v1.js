@@ -1,7 +1,7 @@
 "use strict";
 
-const hellocontroller = require("../src/controllers/helloController");
-const azureBlobController = require("../src/controllers/azureBlobController");
+const hellocontroller = require("../routes/api/hello/hello");
+const azureBlobController = require("../routes/api/dataObject/azureBlob");
 
 module.exports = (app) => {
   app.route("/hello").get(hellocontroller.hello);

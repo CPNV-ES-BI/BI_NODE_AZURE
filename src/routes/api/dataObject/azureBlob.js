@@ -1,6 +1,6 @@
 "use strict";
 
-const AzureBlobClient = require("../lib/azureBlobClient").AzureBlobClient;
+const AzureBlobClient = require("../../../config/components/AzureBlobClient").AzureBlobClient;
 
 var controllers = {
   containers: (req, res) => {
