@@ -1,16 +1,14 @@
 "use strict";
 
-const AzureBlobClient = require("../../../config/components/AzureBlobClient").AzureBlobClient;
+const DataObject = require("../../../models/dataobject").DataObject;
 
 var controllers = {
   containers: async (req, res) => {
-    let azureBlobClient = new AzureBlobClient();
     res.json(await azureBlobClient.containers());
   },
   all: async (req, res) => {
-    let azureBlobClient = new AzureBlobClient();
-    console.log(JSON.stringify(await azureBlobClient.all(req.params.containerName)));
-    res.json(await azureBlobClient.all(req.params.containerName));
+    console.log(JSON.stringify(await DataObject.all(req.params.containerName)));
+    res.json(await DataObject.all(req.params.containerName));
   },
 };
 

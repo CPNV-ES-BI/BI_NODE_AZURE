@@ -6,13 +6,19 @@
 
 "use strict";
 
+const AzureBlobClient =
+  require("../config/components/AzureBlobClient").AzureBlobClient;
+
 class DataObject {
 
   name = null
   constructor(name) {
     this.name = name;
   }
-  static all(){}
+  static async all(containerName){
+    let azureBlobClient = new AzureBlobClient();
+    return await azureBlobClient.all(containerName);
+  }
   exists(){}
   create(name){}
   download(){}
