@@ -11,8 +11,16 @@ class AzureBlobClient {
     );
   }
 
-  containers(){
-    return this.blobServiceClient.listContainers();
+  async containers(){
+    let iter = this.blobServiceClient.listContainers();
+    let containers = [];
+    containers.push(await iter.next());
+
+    while(!containers[containers.length - 1].done){
+      containers.push(await iter.next());
+    }
+    containers.pop(); // remove last element which is done and empty
+    return containers;
   }
 }
 

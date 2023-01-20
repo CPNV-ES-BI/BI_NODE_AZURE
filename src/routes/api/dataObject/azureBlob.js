@@ -3,9 +3,10 @@
 const AzureBlobClient = require("../../../config/components/AzureBlobClient").AzureBlobClient;
 
 var controllers = {
-  containers: (req, res) => {
+  containers: async (req, res) =>{
     let azureBlobClient = new AzureBlobClient();
-    res.json(azureBlobClient.containers());
+    console.log(JSON.stringify(await azureBlobClient.containers()));
+    res.json(await azureBlobClient.containers());
   },
 };
 
