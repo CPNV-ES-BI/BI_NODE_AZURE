@@ -22,6 +22,22 @@ class AzureBlobClient {
     containers.pop(); // remove last element which is done and empty
     return containers;
   }
+
+  async all(container){
+    //create container client
+    let containerClient = this.blobServiceClient.getContainerClient(container);
+
+    //list blobs
+    let iter = containerClient.listBlobsFlat(container);
+    let blobs = [];
+    blobs.push(await iter.next());
+
+    while(!blobs[blobs.length - 1].done){
+      blobs.push(await iter.next());
+    }
+    blobs.pop(); // remove last element which is done and empty
+    return blobs;
+  }
 }
 
 module.exports.AzureBlobClient = AzureBlobClient;
