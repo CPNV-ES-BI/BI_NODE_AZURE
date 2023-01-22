@@ -11,19 +11,38 @@ const AzureBlobClient =
 
 class DataObject {
 
-  name = null
-  constructor(name) {
+  name = null;
+  containerName = null;
+  constructor(name, containerName) {
     this.name = name;
+    this.containerName = containerName;
   }
   static async all(containerName){
     let azureBlobClient = new AzureBlobClient();
     return await azureBlobClient.all(containerName);
   }
-  exists(){}
-  create(name){}
+  async exists(){
+    let azureBlobClient = new AzureBlobClient();
+    return await azureBlobClient.exists(this.containerName, this.name);
+  }
+  async create(content){
+    let azureBlobClient = new AzureBlobClient();
+    if(await this.exists()) throw new DataObjectAlreadyExistsException();
+    return await azureBlobClient.create(this.containerName, this.name, content);
+  }
+
   download(){}
+
   publish(name){}
-  delete(){}
+
+  async delete(){
+    let azureBlobClient = new AzureBlobClient();
+    if(!await this.exists()) throw new DataObjectNotFoundException(
+      `The dataobject ${this.name} does not exist in the container ${this.containerName}`
+    );
+
+    return await azureBlobClient.delete(this.containerName, this.name);
+  }
 }
 
 class DataObjectAlreadyExistsException extends Error {}
