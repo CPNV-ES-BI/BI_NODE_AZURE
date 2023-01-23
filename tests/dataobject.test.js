@@ -9,6 +9,7 @@
 let DataObject = require('../src/models/DataObject.js').DataObject
 let DataObjectAlreadyExistsException = require('../src/models/DataObject.js').DataObjectAlreadyExistsException
 let DataObjectNotFoundException = require('../src/models/DataObject.js').DataObjectNotFoundException
+let ContainerNotFoundException = require('../src/models/Container').ContainerNotFoundException
 
 let dataObject = null;
 
@@ -18,11 +19,11 @@ let containerName = 'esbinode';
 beforeAll(async ()=>{
   dataObject = new DataObject(DataObjectName, containerName);
   let content = 'the content of the dataobject';
-  await dataObject.create(content);
+  if(!await dataObject.exists()) await dataObject.create(content);
 })
 
 afterAll(async () => {
-  if (await dataObject.exists()) await dataObject.delete();
+  if (await dataObject.exists()) dataObject.delete();
 });
 
 test("All_NominalCase_ReturnAllObjects",async () => {
@@ -47,7 +48,7 @@ test("CreateObject_NominalCase_ObjectExists", async () => {
 
 test("CreateObject_AlreadyExists_ThrowException", async () => {
   //given
-  
+
   //when
 
   //then
@@ -56,7 +57,7 @@ test("CreateObject_AlreadyExists_ThrowException", async () => {
 
 test("DoesExist_NotExists_False", async() => {
   //given
-  let notExistingDataObject = new DataObject("notExistingDataObject");
+  let notExistingDataObject = new DataObject("notExistingDataObject",containerName);
   //when
 
   //then
@@ -72,13 +73,14 @@ test("DoesExist_ExistsCase_True", async () => {
   await expect(dataObject.exists()).resolves.toBe(true);
 });
 
-test("CreateObject_PathNotExists_ObjectExists", () => { // TODO - understand the test
+test("CreateObject_PathNotExists_ObjectExists", async () => {
   //given
-
+  let notExistingContainerName = "notcontainer";
+  let newDataObject = new DataObject("testNewDataObject", notExistingContainerName);
   //when
 
   //then
-
+  await expect(newDataObject.create("the content of the dataobject")).rejects.toThrow(ContainerNotFoundException);
 });
 
 test("DownloadObject_NominalCase_Downloaded", () => {
@@ -92,7 +94,7 @@ test("DownloadObject_NominalCase_Downloaded", () => {
 
 test("DownloadObject_NotExists_ThrowException", () => {
   //given
-  dataObject.name = "notTestDataObject";
+  
   //when
 
   //then
@@ -123,13 +125,11 @@ test("PublishObject_ObjectNotFound_ThrowException", () => {
 
 test("DeleteObject_NominalCase_ObjectDeleted", async () => {
   //given
-  dataObject.name = "dataObjectToDelete"
-  await dataObject.create("the content of the dataobject");
-
+  //await dataObject.create("the content of the dataobject");
   //when
-
+  await dataObject.delete();
   //then
-  await expect(dataObject.delete()).resolves.toBe(true);
+  await expect(dataObject.exists()).resolves.toBe(false);
 });
 
 test("DeleteObject_ObjectNotFound_ObjectDeleted", async () => {
@@ -139,5 +139,5 @@ test("DeleteObject_ObjectNotFound_ObjectDeleted", async () => {
   //when
 
   //then
-  await expect(dataObject.delete()).resolves.toBe(false);
+  await expect(dataObject.delete()).rejects.toThrow(DataObjectNotFoundException);
 });
