@@ -8,6 +8,6 @@ module.exports = async (app) => {
   app.route("/containers/:containerName/blobs/all").get(await azureBlobController.all);
   app.route("/containers").get(await azureBlobController.containers);
   app.route("/containers/:containerName/blobs/exists/:blobName").get(await azureBlobController.exists);
-  app.route("/containers/:containerName/blobs/create/:blobName/:content").get(await azureBlobController.create);
-  app.route("/containers/:containerName/blobs/delete/:blobName").get(await azureBlobController.delete);
+  app.route("/containers/:containerName/blobs/create/:blobName/:content").post(await azureBlobController.create);
+  app.route("/containers/:containerName/blobs/delete/:blobName").delete(await azureBlobController.delete);
 };

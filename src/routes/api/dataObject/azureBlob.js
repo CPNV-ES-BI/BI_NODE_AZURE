@@ -7,7 +7,6 @@ var controllers = {
     res.json(await azureBlobClient.containers());
   },
   all: async (req, res) => {
-    console.log(JSON.stringify(await DataObject.all(req.params.containerName)));
     res.json(await DataObject.all(req.params.containerName));
   },
   exists: async (req, res) => {
