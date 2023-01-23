@@ -29,19 +29,13 @@ class Dataobject{
   + async delete(): JSON
 }
 
-
 class Container{
   {static} + async all(): JSON
   {static} + async exists(containerName: string): boolean
 }
 
-
 Dataobject..>AzureBlobClient
 Container..>AzureBlobClient
 AzureBlobClient..>BlobServiceClient
-
-
-
-
 
 @enduml
