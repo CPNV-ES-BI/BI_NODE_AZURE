@@ -9,6 +9,9 @@
 const AzureBlobClient =
   require("../config/components/AzureBlobClient").AzureBlobClient;
 
+const Container = require("./container").Container;
+const ContainerNotFoundException = require("./container").ContainerNotFoundException;
+
 class DataObject {
 
   name = null;
@@ -18,14 +21,17 @@ class DataObject {
     this.containerName = containerName;
   }
   static async all(containerName){
+    if(!await Container.exists(containerName)) throw new ContainerNotFoundException();
     let azureBlobClient = new AzureBlobClient();
     return await azureBlobClient.all(containerName);
   }
   async exists(){
+    if(!await Container.exists(this.containerName)) throw new ContainerNotFoundException();
     let azureBlobClient = new AzureBlobClient();
     return await azureBlobClient.exists(this.containerName, this.name);
   }
   async create(content){
+    if(!await Container.exists(this.containerName)) throw new ContainerNotFoundException();
     let azureBlobClient = new AzureBlobClient();
     if(await this.exists()) throw new DataObjectAlreadyExistsException();
     return await azureBlobClient.create(this.containerName, this.name, content);
@@ -36,6 +42,9 @@ class DataObject {
   publish(name){}
 
   async delete(){
+    if(!await Container.exists(this.containerName)) throw new ContainerNotFoundException(
+      `The container ${containerName} does not exist`
+    );
     let azureBlobClient = new AzureBlobClient();
     if(!await this.exists()) throw new DataObjectNotFoundException(
       `The dataobject ${this.name} does not exist in the container ${this.containerName}`

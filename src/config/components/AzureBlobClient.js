@@ -24,8 +24,8 @@ class AzureBlobClient {
   }
 
   async all(container){
-    //create container client
-    let containerClient = this.blobServiceClient.getContainerClient(container);
+    //get container client
+    const containerClient = this.blobServiceClient.getContainerClient(container);
 
     //list blobs
     let iter = containerClient.listBlobsFlat(container);
@@ -40,10 +40,24 @@ class AzureBlobClient {
   }
 
   async exists(container, blob){
-    const containerClient = this.blobServiceClient.getContainerClient(container)
+    const containerClient = this.blobServiceClient.getContainerClient(container);;
     const blobClient = containerClient.getBlobClient(blob);
     try {
         const properties = await blobClient.getProperties();
+        return true;
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return false;
+        } else {
+            throw error;
+        }
+    }
+  }
+
+  async containerExists(container){
+    const containerClient = this.blobServiceClient.getContainerClient(container);
+    try {
+        const properties = await containerClient.getProperties();
         return true;
     } catch (error) {
         if (error.statusCode === 404) {
@@ -68,5 +82,6 @@ class AzureBlobClient {
     return deletedBlob;
   }
 }
+
 
 module.exports.AzureBlobClient = AzureBlobClient;
