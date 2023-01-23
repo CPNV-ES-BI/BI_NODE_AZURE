@@ -19,7 +19,8 @@ This project is using a `.env` file to store to connection sting to Azure. An sa
 ## Usage
 
 There is no usage method yet.
-To build and run the container use `docker compose up`.
+To build the container use `docker compose build`.
+And to run the container use `docker compose up`.
 
 ## Testing
 
