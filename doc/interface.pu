@@ -1,9 +1,11 @@
 @startuml BI-Azure-node
 
-note "ESBINODE
-\n 23.01.2023
-\n v1.2
-\n H.Dubuis, T.Gautier" as n1
+note as n1 
+  ESBINODE
+  23.01.2023
+  v1.2
+  H.Dubuis, T.Gautier
+end note
 
 class BlobServiceClient{}
 note left: "Azure sdk class"
