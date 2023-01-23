@@ -1,10 +1,11 @@
 "use strict";
 
 const DataObject = require("../../../models/dataobject").DataObject;
+const Container = require("../../../models/container").Container;
 
 var controllers = {
   containers: async (req, res) => {
-    res.json(await azureBlobClient.containers());
+    res.json(await Container.all());
   },
   all: async (req, res) => {
     res.json(await DataObject.all(req.params.containerName));
