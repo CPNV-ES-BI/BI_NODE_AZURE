@@ -1,12 +1,43 @@
-@startuml
-Interface dataobject{
-  name
-  {static} constructor(name: string)
-  {static} all()
-  + exists(): boolean
-  + create(name: string): boolean
-  + download(name: string): boolean
-  + publish(name: string)
-  + delete()
+@startuml BI-Azure-node
+
+note as n1 
+  ESBINODE
+  23.01.2023
+  v1.2
+  H.Dubuis, T.Gautier
+end note
+
+class BlobServiceClient{}
+note left: "Azure sdk class"
+
+class AzureBlobClient{
+  + async containers(): JSON
+  + async all(name : string): JSON
+  + async exists(container : string , blob:string): boolean
+  + async containerExists(container : string): boolean
+  + async create(container : string , blob:string, content:string): JSON
+  + async delete(container : string , blob:string): JSON
 }
+
+class Dataobject{
+  name
+  containerName
+  {static} constructor(name: string, containerName: string)
+  {static} + async all(containerName: string): JSON
+  + async exists(): boolean
+  + async create(content: string): JSON
+  + download()
+  + publish(name: string)
+  + async delete(): JSON
+}
+
+class Container{
+  {static} + async all(): JSON
+  {static} + async exists(containerName: string): boolean
+}
+
+Dataobject..>AzureBlobClient
+Container..>AzureBlobClient
+AzureBlobClient..>BlobServiceClient
+
 @enduml

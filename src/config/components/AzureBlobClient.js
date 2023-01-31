@@ -24,8 +24,8 @@ class AzureBlobClient {
   }
 
   async all(container){
-    //create container client
-    let containerClient = this.blobServiceClient.getContainerClient(container);
+    //get container client
+    const containerClient = this.blobServiceClient.getContainerClient(container);
 
     //list blobs
     let iter = containerClient.listBlobsFlat(container);
@@ -38,6 +38,50 @@ class AzureBlobClient {
     blobs.pop(); // remove last element which is done and empty
     return blobs;
   }
+
+  async exists(container, blob){
+    const containerClient = this.blobServiceClient.getContainerClient(container);;
+    const blobClient = containerClient.getBlobClient(blob);
+    try {
+        const properties = await blobClient.getProperties();
+        return true;
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return false;
+        } else {
+            throw error;
+        }
+    }
+  }
+
+  async containerExists(container){
+    const containerClient = this.blobServiceClient.getContainerClient(container);
+    try {
+        const properties = await containerClient.getProperties();
+        return true;
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return false;
+        } else {
+            throw error;
+        }
+    }
+  }
+
+  async create(container, blob, content){
+    const containerClient = this.blobServiceClient.getContainerClient(container);
+    const blobClient = containerClient.getBlockBlobClient(blob);
+    const createdBlob = await blobClient.upload(content, content.length);
+    return createdBlob;
+  }
+
+  async delete(container, blob){
+    const containerClient = this.blobServiceClient.getContainerClient(container);
+    const blobClient = containerClient.getBlockBlobClient(blob);
+    const deletedBlob = await blobClient.delete();
+    return deletedBlob;
+  }
 }
+
 
 module.exports.AzureBlobClient = AzureBlobClient;

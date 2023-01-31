@@ -18,8 +18,22 @@ This project is using a `.env` file to store to connection sting to Azure. An sa
 
 ## Usage
 
-There is no usage method yet.
-To build and run the container use `docker compose up`.
+To build the container use `docker compose build`.
+
+And to run the container use `docker compose up`.
+
+The API will be available on port 3000.
+
+### Table of routes
+
+| Route | Method | Description |
+| --- | --- | --- |
+| /hello | GET | Hello world route |
+| /containers | GET | List all containers |
+| /containers/:containerName/blobs/all | GET | List all blobs of a container|
+| /containers/:containerName/blobs/:blobName/exists | GET | Verify if a blob exists in a specific container |
+| /containers/:containerName/blobs/:blobName/:content | POST | Create a blob in a container |
+| /containers/:containerName/blobs/:blobName | DELETE | Delete a blob in a container|
 
 ## Testing
 
@@ -29,15 +43,17 @@ To run test you can just run `npm run test`.
 
 ```
 +---doc // directory where you can find the documentation of the project   
-|
-+---routes // directory where you can find the routes files
 |       
 +---src
-|   +---controllers
+|   +---config
+|       |       
+|       +---components
 |   |       
-|   +---helpers
-|   |       
-|   \---models       
+|   +---models
+|   |
+|   +---routes // directory where you can find the routes files
+|       |
+|       +---api // directory where you can find the api routes files       
 \---tests
 ```
 
