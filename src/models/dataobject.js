@@ -1,10 +1,9 @@
 class DataObject {
-    static async all(){}
-    async exists(){}
-    async create(name,path){}
-    async delete(){}
-    async download(){}
-    async publish(){}
+    async doesExist(path){}
+    async create(path,content){}
+    async delete(path){}
+    async download(path){}
+    async publish(path){}
 }
 
 module.exports = DataObject;

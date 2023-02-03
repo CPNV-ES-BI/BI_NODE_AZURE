@@ -1,6 +1,6 @@
 "use strict";
 
-const DataObject = require("../../../models/dataobject").DataObject;
+const DataObject = require("../../../config/controller/dataobject").DataObject;
 const Container = require("../../../models/container").Container;
 
 var controllers = {
