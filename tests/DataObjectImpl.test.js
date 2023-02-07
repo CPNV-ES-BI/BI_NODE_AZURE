@@ -13,18 +13,18 @@ let DataObjectPathNotFoundException = require('../src/config/components/DataObje
 
 let dataObject = null;
 const regexValidURL = /^https:\/\/[a-z0-9]+\.blob\.core\.windows\.net\/[a-z0-9-]+\/[a-z0-9-]+$/i;
-let path = 'esbinode/theTestDataObject';
+let path = 'esbinode/TheTestDataObject';
 
 let content = 'the content of the test dataobject';
 
 beforeAll(async ()=>{
   dataObject = new DataObjectImpl();
   if (await dataObject.doesExist(path)) dataObject.delete(path);
-  await dataObject.create(path,content);
+  await dataObject.create(path, content);
 })
 
 afterAll(async () => {
-  if (await dataObject.doesExist(path)) dataObject.delete(path);
+ if (await dataObject.doesExist(path)) dataObject.delete(path);
 });
 
 test("CreateObject_NominalCase_ObjectExists", async () => {
@@ -67,7 +67,7 @@ test("DoesExist_ExistsCase_True", async () => {
 
 test("CreateObject_PathNotExists_ObjectExists", async () => {
   //given
-  let notExistingPath = "noPath/notPath";
+  let notExistingPath = "nopath/notpath";
   let newDataObject = new DataObjectImpl();
   //when
 
@@ -81,7 +81,7 @@ test("DownloadObject_NominalCase_Downloaded", async () => {
   //when
 
   //then
-  await expect(existingDataObject.download(path)).resolves.toBe(content);
+  await expect(dataObject.download(path)).resolves.toBe(content);
 });
 
 test("DownloadObject_NotExists_ThrowException", async () => {
@@ -95,9 +95,8 @@ test("DownloadObject_NotExists_ThrowException", async () => {
 
 test("PublishObject_NominalCase_ObjectPublished", async () => {
   //given
-
   //when
-  let result = await existingDataObject.publish(path);
+  let result = await dataObject.publish(path);
   //then
   expect(regexValidURL.test(result)).toBe(true); 
 });
