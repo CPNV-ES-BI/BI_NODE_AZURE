@@ -50,7 +50,7 @@
             }
           },
           "404": {
-            "description": "Container not found"
+            "description": "Path not found"
           }
         }
       },
@@ -90,16 +90,16 @@
         ],
         "responses": {
           "200": {
-            "description": "The blob is returned",
+            "description": "The data-object is returned",
             "content": {
               "application/json": {}
             }
           },
           "404": {
-            "description": "Container not found"
+            "description": "Path not found"
           },
           "409": {
-            "description": "A blob with the same name already exists"
+            "description": "A data-object with the same name already exists"
           }
         }
       },
@@ -136,7 +136,7 @@
             }
           },
           "404": {
-            "description": "Dataobject or container not found"
+            "description": "Dataobject not found"
           }
         }
       }
@@ -169,13 +169,13 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "Successful operation",
             "content": {
               "application/json": {}
             }
           },
           "404": {
-            "description": "Container not found"
+            "description": "Path not found"
           }
         }
       }
