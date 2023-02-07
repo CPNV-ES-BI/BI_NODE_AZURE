@@ -11,47 +11,32 @@
   },
   "tags": [
     {
-      "name": "HelloWorld",
-      "description": "API test"
-    },
-    {
-      "name": "dataObjects",
+      "name": "Data Objects",
       "description": "Everything about dataObjects"
     }
   ],
   "paths": {
-    "/hello": {
+    "/data-objects/{id}": {
       "get": {
-        "tags": [
-          "HelloWorld"
-        ],
-        "summary": "API test call",
-        "description": "API test call",
-        "operationId": "helloworld",
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/containers/{containerName}/blobs/all": {
-      "get": {
-        "tags": [
-          "dataObjects"
-        ],
-        "summary": "all dataObjects",
-        "description": "all dataObjects",
-        "operationId": "allDataObjects",
+        "tags": ["Data Objects"],
+        "summary": "download dataobject",
+        "description": "download dataobject",
+        "operationId": "dataobject.download",
         "parameters": [
           {
-            "name": "containerName",
+            "name": "id",
             "in": "path",
-            "description": "Name of the container",
+            "description": "Name of the dataobject",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "description": "Path of the dataobject",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -68,31 +53,76 @@
             "description": "Container not found"
           }
         }
-      }
-    },
-    "/containers/{containerName}/blobs/{blobName}": {
-      "delete": {
-        "tags": [
-          "dataObjects"
-        ],
-        "summary": "Delete the specified dataobject",
-        "description": "Delete the specified dataobject",
-        "operationId": "DeleteDataObject",
+      },
+      "post": {
+        "tags": ["Data Objects"],
+        "summary": "Post content",
+        "description": "Post content",
+        "operationId": "dataobject.post",
         "parameters": [
           {
-            "name": "containerName",
+            "name": "id",
             "in": "path",
-            "description": "Name of the container",
+            "description": "Name of the dataobject",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "blobName",
+            "name": "path",
+            "in": "query",
+            "description": "Path of the dataobject",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data",
+            "in": "header",
+            "description": "Content of the dataobject",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The blob is returned",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Container not found"
+          },
+          "409": {
+            "description": "A blob with the same name already exists"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Data Objects"],
+        "summary": "Delete the specified dataobject",
+        "description": "Delete the specified dataobject",
+        "operationId": "dataobject.delete",
+        "parameters": [
+          {
+            "name": "id",
             "in": "path",
-            "description": "Name of the blob",
+            "description": "Name of the dataobject",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "description": "Path of the dataobject",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -111,29 +141,27 @@
         }
       }
     },
-    "/containers/{containerName}/blobs/{blobName}/exists": {
-      "get": {
-        "tags": [
-          "dataObjects"
-        ],
-        "summary": "Does the blob exists ?",
-        "description": "CHeck if a specified blob exists",
-        "operationId": "DataObjectExists",
+    "/data-objects/{id}/publish": {
+      "put": {
+        "tags": ["Data Objects"],
+        "summary": "publish dataobject",
+        "description": "publish the data object",
+        "operationId": "dataobject.publish",
         "parameters": [
           {
-            "name": "containerName",
+            "name": "id",
             "in": "path",
-            "description": "Name of the container",
+            "description": "Name of the dataobject",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "blobName",
-            "in": "path",
-            "description": "Name of the blob",
-            "required": true,
+            "name": "path",
+            "in": "query",
+            "description": "Path of the dataobject",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -141,70 +169,13 @@
         ],
         "responses": {
           "200": {
-            "description": "blob found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Container not found"
-          }
-        }
-      }
-    },
-    "/containers/{containerName}/blobs/{blobName}/{content}": {
-      "post": {
-        "tags": [
-          "dataObjects"
-        ],
-        "summary": "Post content",
-        "description": "Post content",
-        "operationId": "PostDataObject",
-        "parameters": [
-          {
-            "name": "containerName",
-            "in": "path",
-            "description": "Name of the container",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "blobName",
-            "in": "path",
-            "description": "Name of the blob",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "content",
-            "in": "path",
-            "description": "Content of the blob",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The blob is returned",
+            "description": "successful operation",
             "content": {
               "application/json": {}
             }
           },
           "404": {
             "description": "Container not found"
-          },
-          "409": {
-            "description": "A blob with the same name already exists"
           }
         }
       }
