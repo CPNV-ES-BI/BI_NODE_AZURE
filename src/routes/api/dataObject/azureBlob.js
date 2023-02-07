@@ -1,41 +1,41 @@
 "use strict";
 
-const DataObject = require("../../../models/dataobject").DataObject;
-const Container = require("../../../models/container").Container;
+/*const AzureBlobClient = require("../../../config/components/DataObjectImpl").DataObjectImpl;
+let dataObjectImpl = new DataObjectImpl();*/
 
 var controllers = {
-  containers: async (req, res) => {
-    try {
-        res.json(await Container.all());
-    } catch (error) {
-        res.status(500);
+  download: async (req, res) => {
+    let element;
+    if (req.query.path === undefined){
+      element = req.params.id
+    }else{
+      element = req.query.path+"/"+req.params.id
     }
-  },
-  all: async (req, res) => {
-    try {
-        res.json(await DataObject.all(req.params.containerName));
-    } catch (error) {
-      if(error.constructor.name == "ContainerNotFoundException"){
-        res.status(404);
-        res.json({error : error.constructor.name});
-      } else 
-        res.status(500);
-    }
-  },
-  exists: async (req, res) => {
-    let dataObject = new DataObject(req.params.blobName, req.params.containerName);
-    try {
-      res.json(await dataObject.exists());
-    } catch (error) {
-      if(error.constructor.name == "ContainerNotFoundException" || error.constructor.name == "DataObjectNotFoundException"){
-        res.status(404);
-        res.json({error : error.constructor.name});
-      } else
-        res.status(500);
-    }
+
+    res.status(501);
+    res.json({error : "Not implemented"});
+    return
     
+    /*try{
+      dataObjectImpl.download(element);
+    }catch(err){
+      
+    }
+    */
   },
   create: async (req, res) => {
+    let element;
+    if (req.query.path === undefined) {
+      element = req.params.id;
+    } else {
+      element = req.query.path + "/" + req.params.id;
+    }
+
+    console.log(JSON.stringify(req.body.data))
+    res.status(501);
+    res.json({ error: "Not implemented" });
+    return
+
     let dataObject = new DataObject(req.params.blobName, req.params.containerName);
     try {
       res.json(await dataObject.create(req.params.content));
