@@ -1,65 +1,77 @@
 "use strict";
 
-/*const AzureBlobClient = require("../../../config/components/DataObjectImpl").DataObjectImpl;
-let dataObjectImpl = new DataObjectImpl();*/
+const DataObjectImpl = require("../../../config/components/DataObjectImpl").DataObjectImpl;
+const DataObjectAlreadyExistsException  = require("../../../config/components/DataObjectImpl").DataObjectAlreadyExistsException;
+const DataObjectPathNotFoundException   = require("../../../config/components/DataObjectImpl").DataObjectPathNotFoundException;
+const DataObjectNotFoundException       = require("../../../config/components/DataObjectImpl").DataObjectNotFoundException;
+
+let dataObjectImpl = new DataObjectImpl();
 
 var controllers = {
   download: async (req, res) => {
     let element;
+
     if (req.query.path === undefined){
       element = req.params.id
     }else{
       element = req.query.path+"/"+req.params.id
     }
-
-    res.status(501);
-    res.json({error : "Not implemented"});
-    return
     
-    /*try{
+    try{
       dataObjectImpl.download(element);
-    }catch(err){
-      
+    }catch(error){
+      if(error instanceof DataObjectPathNotFoundException){
+        res.status(404);
+        res.json({error : "DataObject path not found"});
+      }else if(error instanceof DataObjectNotFoundException){
+        res.status(404);
+        res.json({error : "DataObject not found"});
+      }else{
+        res.status(500);
+      }
     }
-    */
+    
   },
   create: async (req, res) => {
     let element;
+    let data;
+    if (req.query.path === undefined) {
+      element = req.params.id;
+      data = null;
+    } else {  
+      element = req.query.path + "/" + req.params.id;
+      data = req.body.data;
+    }
+
+    try {
+      res.json(await dataObjectImpl.create(element,data));
+    } catch (error) {
+      if (error instanceof DataObjectAlreadyExistsException) {
+        res.status(409);
+        res.json({ error: "DataObject already exists" });
+      } else { 
+        res.status(500);
+      }
+    }
+  },
+  delete: async (req, res) => {
+    let element;
+
     if (req.query.path === undefined) {
       element = req.params.id;
     } else {
       element = req.query.path + "/" + req.params.id;
     }
 
-    console.log(JSON.stringify(req.body.data))
-    res.status(501);
-    res.json({ error: "Not implemented" });
-    return
-
-    let dataObject = new DataObject(req.params.blobName, req.params.containerName);
-    try {
-      res.json(await dataObject.create(req.params.content));
-    } catch (error) {
-      if(error.constructor.name == "ContainerNotFoundException"){
-        res.status(404);
-        res.json({error : error.constructor.name});
-      } else if(error.constructor.name == "DataObjectAlreadyExistsException"){
-        res.status(409);
-        res.json({error : error.constructor.name});
-      } else
-          res.status(500);
-    }
-  },
-  delete: async (req, res) => {
-    let dataObject = new DataObject(req.params.blobName, req.params.containerName);
     try{
-      res.json(await dataObject.delete());
+      res.json(await dataObjectImpl.delete(element));
     } catch (error) {
-      if(error.constructor.name == "ContainerNotFoundException" || error.constructor.name == "DataObjectNotFoundException"){
+      if (error instanceof DataObjectNotFoundException) {
         res.status(404);
-        res.json({error : error.constructor.name});
-      } else
-      res.status(500);
+        res.json({ error: "DataObject not found" });;
+      } else { 
+        res.status(500);
+      }
     }
   },
 };
