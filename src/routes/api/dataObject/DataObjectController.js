@@ -6,13 +6,13 @@ const DataObjectNotFoundException =  require("../../../lib/DataObjectImpl").Data
 
 let dataObjectImpl = new DataObjectImpl();
 
-const controllers = {
-  download: async (req, res) => {
+class DataObjectController{
+  
+  async download(req, res) {
     let element =
       req.query.path === undefined
         ? req.params.id
         : req.query.path + "/" + req.params.id;
-
 
     try {
       res.json(await dataObjectImpl.download(element));
@@ -27,8 +27,9 @@ const controllers = {
         res.status(500);
       }
     }
-  },
-  create: async (req, res) => {
+  }
+
+  async create(req, res) {
     let element;
     let data;
 
@@ -50,8 +51,9 @@ const controllers = {
         res.status(500);
       }
     }
-  },
-  delete: async (req, res) => {
+  }
+
+  async delete(req, res) {
     let element =
       req.query.path === undefined
         ? req.params.id
@@ -60,15 +62,19 @@ const controllers = {
     try {
       res.json(await dataObjectImpl.delete(element));
     } catch (error) {
-      if (error instanceof DataObjectNotFoundException) {
+      if (error instanceof DataObjectPathNotFoundException) {
+        res.status(404);
+        res.json({ error: "DataObject path not found" });
+      } else if (error instanceof DataObjectNotFoundException) {
         res.status(404);
         res.json({ error: "DataObject not found" });
       } else {
         res.status(500);
       }
     }
-  },
-  publish: async (req, res) => {
+  }
+
+  async publish(req, res) {
     let element =
       req.query.path === undefined
         ? req.params.id
@@ -77,17 +83,18 @@ const controllers = {
     try {
       res.json(await dataObjectImpl.publish(element));
     } catch (error) {
-      if (error instanceof DataObjectNotFoundException) {
-        res.status(404);
-        res.json({ error: "DataObject not found" });
-      } else if (error instanceof DataObjectPathNotFoundException) {
+      if (error instanceof DataObjectPathNotFoundException) {
         res.status(404);
         res.json({ error: "DataObject path not found" });
+      } else if (error instanceof DataObjectNotFoundException) {
+        res.status(404);
+        res.json({ error: "DataObject not found" });
       } else {
         res.status(500);
       }
     }
-  },
-};
+  }
 
-module.exports = controllers;
+}
+
+module.exports = DataObjectController;
