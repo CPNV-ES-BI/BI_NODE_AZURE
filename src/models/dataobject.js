@@ -1,7 +1,7 @@
 class DataObject {
     async doesExist(path) { }
     async create(path, content) { }
-    async delete(path) { }
+    async delete(path, recrusive = false) { }
     async download(path) { }
     async publish(path) { }
 }
