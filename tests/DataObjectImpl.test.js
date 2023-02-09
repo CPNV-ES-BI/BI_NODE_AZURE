@@ -121,6 +121,20 @@ test("DeleteObject_NominalCase_ObjectDeleted", async () => {
   await expect(dataObject.doesExist(newPath)).resolves.toBe(false);
 });
 
+test("DeleteObject_ObjectContainingSubObjectsExists_ObjectDeletedRecursively", async () => {
+  //given
+  let newPath = "esbinode/ToDelete";
+  await dataObject.create(newPath, content);
+
+  let newSubPath = "esbinode/ToDelete/sub";
+  await dataObject.create(newSubPath, content);
+  //when
+  await dataObject.delete(newPath, true);
+  //then
+  await expect(dataObject.doesExist(newPath)).resolves.toBe(false);
+  await expect(dataObject.doesExist(newSubPath)).resolves.toBe(false);
+});
+
 test("DeleteObject_ObjectNotFound_ObjectDeleted", async () => {
   //given
   let newPath = "esbinode/ToDelete";
@@ -129,3 +143,5 @@ test("DeleteObject_ObjectNotFound_ObjectDeleted", async () => {
   //then
   await expect(dataObject.delete(newPath)).rejects.toThrow(DataObjectNotFoundException);
 });
+
+
