@@ -2,7 +2,7 @@
 
 note as n1 
   ESBINODE
-  23.01.2023
+  09.02.2023
   v1.2
   H.Dubuis, T.Gautier
 end note
@@ -10,34 +10,32 @@ end note
 class BlobServiceClient{}
 note left: "Azure sdk class"
 
-class AzureBlobClient{
-  + async containers(): JSON
-  + async all(name : string): JSON
-  + async exists(container : string , blob:string): boolean
-  + async containerExists(container : string): boolean
-  + async create(container : string , blob:string, content:string): JSON
-  + async delete(container : string , blob:string): JSON
+class DataObjectImpl{
+  STORAGE_CONNECTION_STRING : string
+  ACCOUNT_NAME : string
+  KEY : string
+  blobServiceClient : BlobServiceClient
+  - #isContainer(path: string): bool
+  - async #getContainer(path: string): ContainerClient
+  - async #createContainer(path: string): JSON
+  - async #createBlob(path: string, content: string): JSON
+  + async doesExist(path: string): boolean
+  + async create(path: string, content: string): JSON
+  + async delete(path: string): void
+  + async download(path: string): string
+  + async publish(path: string): string
 }
 
-class Dataobject{
-  name
-  containerName
-  {static} constructor(name: string, containerName: string)
-  {static} + async all(containerName: string): JSON
-  + async exists(): boolean
-  + async create(content: string): JSON
-  + download()
-  + publish(name: string)
-  + async delete(): JSON
+abstract Dataobject{
+  + async doesExist(path: string)
+  + async create(path: string,content: string)
+  + async delete(path: string)
+  + async download(path: string)
+  + async publish(path: string)
 }
 
-class Container{
-  {static} + async all(): JSON
-  {static} + async exists(containerName: string): boolean
-}
 
-Dataobject..>AzureBlobClient
-Container..>AzureBlobClient
-AzureBlobClient..>BlobServiceClient
+BlobServiceClient <-- DataObjectImpl
+Dataobject <|-- DataObjectImpl
 
 @enduml
