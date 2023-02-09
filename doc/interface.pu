@@ -38,4 +38,15 @@ abstract Dataobject{
 BlobServiceClient <-- DataObjectImpl
 Dataobject <|-- DataObjectImpl
 
+DataObjectAlreadyExistsException <-- DataObjectImpl
+DataObjectNotFoundException <-- DataObjectImpl
+DataObjectPathNotFoundException <-- DataObjectImpl
+
+
+
+class DataObjectAlreadyExistsException
+class DataObjectNotFoundException
+class DataObjectPathNotFoundException
+
+
 @enduml
