@@ -9,7 +9,7 @@ module.exports = async (app) => {
   app.route("/data-objects/:id").get(await azureBlobController.download);
   app.route("/data-objects/:id").post(await azureBlobController.create);
   app.route("/data-objects/:id").delete(await azureBlobController.delete);
-  //app.route("/data-objects/:id/publish").put(await azureBlobController.publish);
+  app.route("/data-objects/:id/publish").put(await azureBlobController.publish);
 
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 };
