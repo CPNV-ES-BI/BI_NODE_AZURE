@@ -42,9 +42,9 @@ class DataObjectImpl extends DataObject {
         throw error;
       }
     }
+    
     const blobName = path.substring(path.indexOf('/') + 1);
     const blobClient = await containerClient.getBlockBlobClient(blobName);
-
     try {
       return await blobClient.exists();
     } catch (error) {
@@ -54,8 +54,7 @@ class DataObjectImpl extends DataObject {
 
   async #createContainer(path) {
     const containerClient = await this.#getContainer(path);
-    const containerExist = await containerClient.exists();
-    if (containerExist) throw new DataObjectAlreadyExistsException();
+    if (await containerClient.exists()) throw new DataObjectAlreadyExistsException();
     const createdContainer = await containerClient.create();
     return createdContainer;
   }
