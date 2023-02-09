@@ -74,6 +74,29 @@ var controllers = {
       }
     }
   },
+  publish: async (req, res) => {
+    let element;
+
+    if (req.query.path === undefined) {
+      element = req.params.id;
+    } else {
+      element = req.query.path + "/" + req.params.id;
+    }
+
+    try{
+      res.json(await dataObjectImpl.publish(element));
+    } catch (error) {
+      if (error instanceof DataObjectNotFoundException) {
+        res.status(404);
+        res.json({ error: "DataObject not found" });
+      } else if (error instanceof DataObjectPathNotFoundException) {
+        res.status(404);
+        res.json({ error: "DataObject path not found" });
+      } else {
+        res.status(500);
+      }
+    }
+  },
 };
 
 module.exports = controllers;
