@@ -71,9 +71,12 @@ test("CreateObject_PathNotExists_ObjectExists", async () => {
   let notExistingPath = "nopath/notpath";
   let newDataObject = new DataObjectImpl();
   //when
-
+  await newDataObject.create(notExistingPath, content);
   //then
-  await expect(newDataObject.create(notExistingPath, content)).rejects.toThrow(DataObjectPathNotFoundException);
+  expect(await newDataObject.doesExist(notExistingPath)).toBe(true);
+  expect(await newDataObject.doesExist("nopath")).toBe(true);
+  // tear down
+  await newDataObject.delete(notExistingPath, true);
 });
 
 test("DownloadObject_NominalCase_Downloaded", async () => {
