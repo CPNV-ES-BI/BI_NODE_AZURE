@@ -1,5 +1,6 @@
 "use strict";
 const { BlobServiceClient, BlobSASPermissions, StorageSharedKeyCredential, generateBlobSASQueryParameters } = require("@azure/storage-blob");
+const { unwatchFile } = require("fs");
 require("dotenv").config();
 const DataObject = require('../models/DataObject');
 
@@ -46,14 +47,9 @@ class DataObjectImpl extends DataObject {
     const blobClient = await containerClient.getBlockBlobClient(blobName);
 
     try {
-      const properties = await blobClient.getProperties();
-      return true;
+      return await blobClient.exists(); 
     } catch (error) {
-      if (error.statusCode === 404) {
-        return false;
-      } else {
-        throw error;
-      }
+      throw error;
     }
   }
 
@@ -82,17 +78,28 @@ class DataObjectImpl extends DataObject {
     }
   }
 
-  async delete(path) {
+  async delete(path, recrusive = false) {
     if (!(await this.doesExist(path)))
       throw new DataObjectNotFoundException();
     else if (this.#isContainer(path)) {
       const containerClient = await this.#getContainer(path);
-      return await containerClient.delete();
+      if(recrusive) {
+        const blobs = containerClient.listBlobsFlat();
+        for await (const blob of blobs) {
+          await containerClient.getBlockBlobClient(blob.name).delete();
+        }
+      }
+      await containerClient.delete();
     } else {
       const containerClient = await this.#getContainer(path.split("/")[0]);
       const blobName = path.substring(path.indexOf('/') + 1);
+      if(recrusive) {
+        for await (const blob of containerClient.listBlobsFlat({ prefix: (blobName + "/")})) {
+          await containerClient.getBlockBlobClient(blob.name).delete();
+        }
+      }
       const blobClient = await containerClient.getBlockBlobClient(blobName);
-      return await blobClient.delete();
+      await blobClient.delete();
     }
   }
 
@@ -116,7 +123,7 @@ class DataObjectImpl extends DataObject {
         readableStream.on("error", reject);
       });
     }
-    return downloaded.toString();
+    return downloaded;
   }
 
   async publish(path) {
