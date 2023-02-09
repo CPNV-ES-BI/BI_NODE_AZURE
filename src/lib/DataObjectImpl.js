@@ -134,7 +134,7 @@ class DataObjectImpl extends DataObject {
       permissions: BlobSASPermissions.parse("r"),
       startsOn: new Date(),
       expiresOn: new Date(new Date().valueOf() + 86400)
-      },
+    },
       cerds
     ).toString();
 

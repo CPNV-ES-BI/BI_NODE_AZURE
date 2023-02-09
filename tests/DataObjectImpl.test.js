@@ -25,7 +25,7 @@ beforeAll(async ()=>{
 })
 
 afterAll(async () => {
- //if (await dataObject.doesExist(path)) dataObject.delete(path);
+ if (await dataObject.doesExist(path)) dataObject.delete(path);
 });
 
 test("CreateObject_NominalCase_ObjectExists", async () => {
