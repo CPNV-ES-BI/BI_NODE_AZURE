@@ -6,18 +6,16 @@ const DataObjectNotFoundException =  require("../../../lib/DataObjectImpl").Data
 
 let dataObjectImpl = new DataObjectImpl();
 
-var controllers = {
+const controllers = {
   download: async (req, res) => {
-    let element;
+    let element =
+      req.query.path === undefined
+        ? req.params.id
+        : req.query.path + "/" + req.params.id;
 
-    if (req.query.path === undefined) {
-      element = req.params.id;
-    } else {
-      element = req.query.path + "/" + req.params.id;
-    }
 
     try {
-      dataObjectImpl.download(element);
+      res.json(await dataObjectImpl.download(element));
     } catch (error) {
       if (error instanceof DataObjectPathNotFoundException) {
         res.status(404);
@@ -33,6 +31,7 @@ var controllers = {
   create: async (req, res) => {
     let element;
     let data;
+
     if (req.query.path === undefined) {
       element = req.params.id;
       data = null;
@@ -53,13 +52,10 @@ var controllers = {
     }
   },
   delete: async (req, res) => {
-    let element;
-
-    if (req.query.path === undefined) {
-      element = req.params.id;
-    } else {
-      element = req.query.path + "/" + req.params.id;
-    }
+    let element =
+      req.query.path === undefined
+        ? req.params.id
+        : req.query.path + "/" + req.params.id;
 
     try {
       res.json(await dataObjectImpl.delete(element));
@@ -73,13 +69,10 @@ var controllers = {
     }
   },
   publish: async (req, res) => {
-    let element;
-
-    if (req.query.path === undefined) {
-      element = req.params.id;
-    } else {
-      element = req.query.path + "/" + req.params.id;
-    }
+    let element =
+      req.query.path === undefined
+        ? req.params.id
+        : req.query.path + "/" + req.params.id;
 
     try {
       res.json(await dataObjectImpl.publish(element));
