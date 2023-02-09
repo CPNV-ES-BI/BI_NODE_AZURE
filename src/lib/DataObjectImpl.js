@@ -124,7 +124,7 @@ class DataObjectImpl extends DataObject {
     if (!(await this.doesExist(path))) throw new DataObjectNotFoundException();
     const cerds = new StorageSharedKeyCredential(this.ACCOUNT_NAME, this.KEY);
     const containerName = path.split("/")[0];
-    const containerClient = await this.#getContainer(path.split("/")[0]);
+    const containerClient = await this.#getContainer(containerName);
     const blobName = path.substring(path.indexOf('/') + 1);
     const blobClient = await containerClient.getBlockBlobClient(blobName);
 
