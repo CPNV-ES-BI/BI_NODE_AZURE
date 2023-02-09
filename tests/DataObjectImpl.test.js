@@ -6,10 +6,10 @@
 
 "use strict";
 
-let DataObjectImpl = require('../src/config/components/DataObjectImpl.js').DataObjectImpl;
-let DataObjectAlreadyExistsException = require('../src/config/components/DataObjectImpl.js').DataObjectAlreadyExistsException
-let DataObjectNotFoundException = require('../src/config/components/DataObjectImpl.js').DataObjectNotFoundException
-let DataObjectPathNotFoundException = require('../src/config/components/DataObjectImpl.js').DataObjectPathNotFoundException
+let DataObjectImpl = require('../src/lib/DataObjectImpl.js').DataObjectImpl;
+let DataObjectAlreadyExistsException = require('../src/lib/DataObjectImpl.js').DataObjectAlreadyExistsException
+let DataObjectNotFoundException = require('../src/lib/DataObjectImpl.js').DataObjectNotFoundException
+let DataObjectPathNotFoundException = require('../src/lib/DataObjectImpl.js').DataObjectPathNotFoundException
 
 let dataObject = null;
 let path = 'esbinode/TheTestDataObject';

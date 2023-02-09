@@ -1,7 +1,7 @@
 "use strict";
 const { BlobServiceClient, BlobSASPermissions, StorageSharedKeyCredential, generateBlobSASQueryParameters } = require("@azure/storage-blob");
 require("dotenv").config();
-const DataObject = require('../../models/DataObject');
+const DataObject = require('../models/DataObject');
 
 
 class DataObjectImpl extends DataObject {
