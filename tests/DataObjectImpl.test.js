@@ -12,8 +12,9 @@ let DataObjectNotFoundException = require('../src/config/components/DataObjectIm
 let DataObjectPathNotFoundException = require('../src/config/components/DataObjectImpl.js').DataObjectPathNotFoundException
 
 let dataObject = null;
-const regexValidURL = /^https:\/\/[a-z0-9]+\.blob\.core\.windows\.net\/[a-z0-9-]+\/[a-z0-9-]+$/i;
 let path = 'esbinode/TheTestDataObject';
+const regexValidURL = new RegExp('https:\/\/[a-z0-9]+.blob.core.windows.net\/[a-z0-9]+\/[a-z0-9]+[a-z0-9\/]*\?[a-z0-9=&]+', 'i')
+
 
 let content = 'the content of the test dataobject';
 
@@ -24,7 +25,7 @@ beforeAll(async ()=>{
 })
 
 afterAll(async () => {
- if (await dataObject.doesExist(path)) dataObject.delete(path);
+ //if (await dataObject.doesExist(path)) dataObject.delete(path);
 });
 
 test("CreateObject_NominalCase_ObjectExists", async () => {

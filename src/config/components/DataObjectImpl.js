@@ -1,5 +1,5 @@
 "use strict";
-const { BlobServiceClient } = require("@azure/storage-blob");
+const { BlobServiceClient, BlobSASPermissions, StorageSharedKeyCredential, generateBlobSASQueryParameters } = require("@azure/storage-blob");
 require("dotenv").config();
 const DataObject = require('../../models/DataObject');
 
@@ -9,6 +9,8 @@ class DataObjectImpl extends DataObject {
     super();
     this.STORAGE_CONNECTION_STRING =
       process.env.STORAGE_CONNECTION_STRING || "";
+    this.ACCOUNT_NAME = process.env.ACCOUNT_NAME || "";
+    this.KEY = process.env.KEY || "";
     this.blobServiceClient = BlobServiceClient.fromConnectionString(
       this.STORAGE_CONNECTION_STRING);
   }
@@ -120,6 +122,7 @@ class DataObjectImpl extends DataObject {
   async publish(path) {
     if (this.#isContainer(path)) throw new DataObjectPathNotFoundException();
     if (!(await this.doesExist(path))) throw new DataObjectNotFoundException();
+    const cerds = new StorageSharedKeyCredential(this.ACCOUNT_NAME, this.KEY);
     const containerName = path.split("/")[0];
     const containerClient = await this.#getContainer(path.split("/")[0]);
     const blobName = path.substring(path.indexOf('/') + 1);
@@ -128,16 +131,15 @@ class DataObjectImpl extends DataObject {
     const blobSAS = generateBlobSASQueryParameters({
       containerName,
       blobName,
-      permissions: BlobSASPermissions.parse("racwd"),
+      permissions: BlobSASPermissions.parse("r"),
       startsOn: new Date(),
       expiresOn: new Date(new Date().valueOf() + 86400)
-    },
+      },
       cerds
     ).toString();
 
-    const sasUrl = blobClient.url + "?" + blobSAS;
-    console.log(sasUrl);
-
+    const sasUrl = `${blobClient.url}?${blobSAS}`;
+    return sasUrl;
   }
 }
 
