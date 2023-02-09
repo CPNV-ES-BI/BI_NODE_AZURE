@@ -80,9 +80,9 @@ test("DownloadObject_NominalCase_Downloaded", async () => {
   //given
 
   //when
-
+  let result = await dataObject.download(path);
   //then
-  await expect(dataObject.download(path)).resolves.toBe(content);
+  expect(result.toString()).toBe(content);
 });
 
 test("DownloadObject_NotExists_ThrowException", async () => {

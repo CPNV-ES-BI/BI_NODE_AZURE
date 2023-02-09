@@ -99,6 +99,7 @@ class DataObjectImpl extends DataObject {
         }
       }
       const blobClient = await containerClient.getBlockBlobClient(blobName);
+      await blobClient.delete();
     }
   }
 
@@ -122,7 +123,7 @@ class DataObjectImpl extends DataObject {
         readableStream.on("error", reject);
       });
     }
-    return downloaded.toString();
+    return downloaded;
   }
 
   async publish(path) {
