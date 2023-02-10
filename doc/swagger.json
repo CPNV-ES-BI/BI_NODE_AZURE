@@ -1,0 +1,190 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "BI1 - node-azure",
+    "description": "This API is meant to manage cloud dataobjects",
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Project's Github",
+    "url": "https://github.com/CPNV-ES-BI/BI_NODE_AZURE"
+  },
+  "tags": [
+    {
+      "name": "Data Objects",
+      "description": "Everything about dataObjects"
+    }
+  ],
+  "paths": {
+    "/data-objects/{id}": {
+      "get": {
+        "tags": ["Data Objects"],
+        "summary": "download dataobject",
+        "description": "download dataobject",
+        "operationId": "dataobject.download",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Name of the dataobject",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "description": "Path of the dataobject",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Path not found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Data Objects"],
+        "summary": "Post content",
+        "description": "Post content",
+        "operationId": "dataobject.post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Name of the dataobject",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "description": "Path of the dataobject",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Content of the dataobject",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The data-object is returned",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Path not found"
+          },
+          "409": {
+            "description": "A data-object with the same name already exists"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Data Objects"],
+        "summary": "Delete the specified dataobject",
+        "description": "Delete the specified dataobject",
+        "operationId": "dataobject.delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Name of the dataobject",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "description": "Path of the dataobject",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Dataobject not found"
+          }
+        }
+      }
+    },
+    "/data-objects/{id}/publish": {
+      "put": {
+        "tags": ["Data Objects"],
+        "summary": "publish dataobject",
+        "description": "publish the data object",
+        "operationId": "dataobject.publish",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Name of the dataobject",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "description": "Path of the dataobject",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Path not found"
+          }
+        }
+      }
+    }
+  }
+}
