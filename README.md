@@ -25,15 +25,14 @@ And to run the container use `docker compose up`.
 The API will be available on port 3000.
 
 ### Table of routes
+All the routes are available in the swagger.json file in the doc directory.
 
 | Route | Method | Description |
 | --- | --- | --- |
-| /hello | GET | Hello world route |
-| /containers | GET | List all containers |
-| /containers/:containerName/blobs/all | GET | List all blobs of a container|
-| /containers/:containerName/blobs/:blobName/exists | GET | Verify if a blob exists in a specific container |
-| /containers/:containerName/blobs/:blobName/:content | POST | Create a blob in a container |
-| /containers/:containerName/blobs/:blobName | DELETE | Delete a blob in a container|
+| /data-objects/{id} | GET | download dataObject |
+| /data-objects/{id} | POST | create a new dataObject|
+| /data-objects/{id} | DELETE | Delete the specified dataObject |
+| /data.objects/{id}/publish | PUT | Publish the dataObject|
 
 ## Testing
 
@@ -45,16 +44,14 @@ To run test you can just run `npm run test`.
 +---doc // directory where you can find the documentation of the project   
 |       
 +---src
-|   +---config
-|       |       
-|       +---components
+|   +---lib
 |   |       
 |   +---models
 |   |
 |   +---routes // directory where you can find the routes files
 |       |
-|       +---api // directory where you can find the api routes files       
-\---tests
+|       +---api // directory where you can find the api routes 
++---tests
 ```
 
 ## Contributing

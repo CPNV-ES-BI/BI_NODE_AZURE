@@ -130,7 +130,7 @@
         ],
         "responses": {
           "200": {
-            "description": "returns deletation data",
+            "description": "Successful operation",
             "content": {
               "application/json": {}
             }
