@@ -7,46 +7,65 @@ note as n1
   H.Dubuis, T.Gautier
 end note
 
-class BlobServiceClient{}
-note left: "Azure sdk class"
-
-class DataObjectImpl{
-  STORAGE_CONNECTION_STRING : string
-  ACCOUNT_NAME : string
-  KEY : string
-  blobServiceClient : BlobServiceClient
-  - #isContainer(path: string): bool
-  - async #getContainer(path: string): ContainerClient
-  - async #createContainer(path: string): JSON
-  - async #createBlob(path: string, content: string): JSON
-  + async doesExist(path: string): boolean
-  + async create(path: string, content: string): JSON
-  + async delete(path: string): void
-  + async download(path: string): string
-  + async publish(path: string): string
+namespace azure.storageBlob {
+  class BlobServiceClient{}
+  note left: "Azure sdk class"
 }
 
-abstract Dataobject{
-  + async doesExist(path: string)
-  + async create(path: string,content: string)
-  + async delete(path: string)
-  + async download(path: string)
-  + async publish(path: string)
+namespace biNodeAzure {
+
+  class DataObjectImpl{
+    STORAGE_CONNECTION_STRING : string
+    ACCOUNT_NAME : string
+    KEY : string
+    blobServiceClient : BlobServiceClient
+    - #isContainer(path: string): bool
+    - async #getContainer(path: string): ContainerClient
+    - async #createContainer(path: string): JSON
+    - async #createBlob(path: string, content: string): JSON
+    + async doesExist(path: string): boolean
+    + async create(path: string, content: string): JSON
+    + async delete(path: string): void
+    + async download(path: string): string
+    + async publish(path: string): string
+  }
+
+  abstract Dataobject{
+    + async doesExist(path: string)
+    + async create(path: string,content: string)
+    + async delete(path: string)
+    + async download(path: string)
+    + async publish(path: string)
+  }
+
+  
+  class DataObjectAlreadyExistsException
+  class DataObjectNotFoundException
+  class DataObjectPathNotFoundException
+
+  DataObjectAlreadyExistsException <.. DataObjectImpl :throws
+  DataObjectNotFoundException <.. DataObjectImpl :throws
+  DataObjectPathNotFoundException <.. DataObjectImpl :throws
+  Dataobject <|-- DataObjectImpl
 }
 
 
-BlobServiceClient <-- DataObjectImpl
-Dataobject <|-- DataObjectImpl
+namespace api {
+  class DataObjectController {
 
-DataObjectAlreadyExistsException <-- DataObjectImpl
-DataObjectNotFoundException <-- DataObjectImpl
-DataObjectPathNotFoundException <-- DataObjectImpl
+    + async download(req, res)
+    + async create(req, res) 
+    + async delete(req, res)
+    + async publish(req, res)
+
+  }
+}
+
+azure.storageBlob.BlobServiceClient <.. biNodeAzure.DataObjectImpl
+biNodeAzure.DataObjectImpl <.. api.DataObjectController
 
 
 
-class DataObjectAlreadyExistsException
-class DataObjectNotFoundException
-class DataObjectPathNotFoundException
 
 
 @enduml

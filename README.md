@@ -1,6 +1,6 @@
 # BI1 - node-azure
 
-This is a microservice written in javascript whose purpose is to us Azure as data source for Business Intelligence.
+This is a microservice written in javascript whose purpose is to use Azure as data source for Business Intelligence.
 
 ## Installation
 
