@@ -25,14 +25,16 @@ And to run the container use `docker compose up`.
 The API will be available on port 3000.
 
 ### Table of routes
-All the routes are available in the swagger.json file in the doc directory.
-
 | Route | Method | Description |
 | --- | --- | --- |
 | /data-objects/{id} | GET | download dataObject |
 | /data-objects/{id} | POST | create a new dataObject|
 | /data-objects/{id} | DELETE | Delete the specified dataObject |
 | /data.objects/{id}/publish | PUT | Publish the dataObject|
+
+### Swagger
+
+A Swagger is available while running the server at `http://<url>/api-docs`.
 
 ## Testing
 
