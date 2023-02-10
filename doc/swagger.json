@@ -77,17 +77,23 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "data",
-            "in": "header",
-            "description": "Content of the dataobject",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
+        "requestBody": {
+          "description": "Content of the dataobject",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "The data-object is returned",
