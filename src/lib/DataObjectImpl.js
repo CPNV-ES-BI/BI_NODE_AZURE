@@ -42,7 +42,7 @@ class DataObjectImpl extends DataObject {
         throw error;
       }
     }
-    
+
     const blobName = path.substring(path.indexOf('/') + 1);
     const blobClient = await containerClient.getBlockBlobClient(blobName);
     try {

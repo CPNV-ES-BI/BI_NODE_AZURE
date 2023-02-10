@@ -1,13 +1,13 @@
 "use strict";
 const DataObjectImpl = require("../../../lib/DataObjectImpl").DataObjectImpl;
-const DataObjectAlreadyExistsException =  require("../../../lib/DataObjectImpl").DataObjectAlreadyExistsException;
-const DataObjectPathNotFoundException =  require("../../../lib/DataObjectImpl").DataObjectPathNotFoundException;
-const DataObjectNotFoundException =  require("../../../lib/DataObjectImpl").DataObjectNotFoundException;
+const DataObjectAlreadyExistsException = require("../../../lib/DataObjectImpl").DataObjectAlreadyExistsException;
+const DataObjectPathNotFoundException = require("../../../lib/DataObjectImpl").DataObjectPathNotFoundException;
+const DataObjectNotFoundException = require("../../../lib/DataObjectImpl").DataObjectNotFoundException;
 
 let dataObjectImpl = new DataObjectImpl();
 
-class DataObjectController{
-  
+class DataObjectController {
+
   async download(req, res) {
     let element =
       req.query.path === undefined

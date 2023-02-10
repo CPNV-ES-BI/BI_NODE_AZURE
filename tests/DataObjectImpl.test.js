@@ -18,21 +18,21 @@ const regexValidURL = new RegExp('https:\/\/[a-z0-9]+.blob.core.windows.net\/[a-
 
 let content = 'the content of the test dataobject';
 
-beforeAll(async ()=>{
+beforeAll(async () => {
   dataObject = new DataObjectImpl();
   if (await dataObject.doesExist(path)) dataObject.delete(path);
   await dataObject.create(path, content);
 })
 
 afterAll(async () => {
- if (await dataObject.doesExist(path)) dataObject.delete(path);
+  if (await dataObject.doesExist(path)) dataObject.delete(path);
 });
 
 test("CreateObject_NominalCase_ObjectExists", async () => {
   //given
   let newDataObject = new DataObjectImpl();
   //when
-  await newDataObject.create("esbinode/test",content);
+  await newDataObject.create("esbinode/test", content);
   //then
   await expect(newDataObject.doesExist("esbinode/test")).resolves.toBe(true);
   // tear down
@@ -45,10 +45,10 @@ test("CreateObject_AlreadyExists_ThrowException", async () => {
   //when
 
   //then
-  await expect(dataObject.create(path,content)).rejects.toThrow(DataObjectAlreadyExistsException);
+  await expect(dataObject.create(path, content)).rejects.toThrow(DataObjectAlreadyExistsException);
 });
 
-test("DoesExist_NotExists_False", async() => {
+test("DoesExist_NotExists_False", async () => {
   //given
   let notExistingDataObject = new DataObjectImpl();
   //when
@@ -102,14 +102,14 @@ test("PublishObject_NominalCase_ObjectPublished", async () => {
   //when
   let result = await dataObject.publish(path);
   //then
-  expect(regexValidURL.test(result)).toBe(true); 
+  expect(regexValidURL.test(result)).toBe(true);
 });
 
 test("PublishObject_ObjectNotFound_ThrowException", async () => {
   //given
   let newPath = "esbinode/ToPublish";
   //when
-  
+
   //then
   await expect(dataObject.publish(newPath)).rejects.toThrow(DataObjectNotFoundException);
 });
