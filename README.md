@@ -2,6 +2,8 @@
 
 This is a microservice written in javascript whose purpose is to use Azure as data source for Business Intelligence.
 
+You can find main instructions and important informations to work with the project below. Some more informations about choices we've made and diagrams can be found in [our wiki](https://github.com/CPNV-ES-BI/BI_NODE_AZURE/wiki) as well.
+
 ## Installation
 
 This project requires node. We are using node v18.12 and npm v9.1.2. 
