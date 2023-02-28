@@ -8,7 +8,7 @@ You can find main instructions and important informations to work with the proje
 
 This project requires node. We are using node v18.12 and npm v9.1.2. 
 
-It can be downloaded from [the official website](https://nodejs.org/) or alternatively from [chocolatey](https://community.chocolatey.org/packages/nodejs).
+It can be downloaded from [the official website](https://nodejs.org/).
 
 When you have node installed in your development environment, you can
 
