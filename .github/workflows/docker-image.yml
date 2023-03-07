@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
 
+env:
+  STORAGE_CONNECTION_STRING: ${{ secrets.STORAGE_CONNECTION_STRING }}
+  ACCOUNT_NAME: ${{ secrets.ACCOUNT_NAME }}
+  KEY: ${{ secrets.KEY }}
+
 jobs:
 
   build:
