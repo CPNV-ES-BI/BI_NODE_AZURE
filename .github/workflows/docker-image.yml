@@ -7,11 +7,17 @@ on:
     branches: [ "main", "develop" ]
 
 jobs:
-  create-envfile:
- 
+
+  build:
+
     runs-on: ubuntu-latest
- 
+
     steps:
+    - uses: actions/checkout@v3
+    - name: dir infos
+        run: ls -l
+    - name: dir infos
+        run: pwd
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
@@ -20,12 +26,5 @@ jobs:
         envkey_KEY: ${{ secrets.KEY }}
         file_name: .env
         directory: ./BI_NODE_AZURE/BI_NODE_AZURE
-
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
