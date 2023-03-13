@@ -6,12 +6,19 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
 
-env:
-  STORAGE_CONNECTION_STRING: ${{ secrets.STORAGE_CONNECTION_STRING }}
-  ACCOUNT_NAME: ${{ secrets.ACCOUNT_NAME }}
-  KEY: ${{ secrets.KEY }}
-
 jobs:
+  create-envfile:
+ 
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Make envfile
+      uses: SpicyPizza/create-envfile@v1.3
+      with:
+        STORAGE_CONNECTION_STRING: ${{ secrets.STORAGE_CONNECTION_STRING }}
+        ACCOUNT_NAME: ${{ secrets.ACCOUNT_NAME }}
+        KEY: ${{ secrets.KEY }}
+        file_name: .env
 
   build:
 
