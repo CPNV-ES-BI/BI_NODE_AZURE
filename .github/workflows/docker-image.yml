@@ -15,9 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: dir infos
-        run: ls -l
+      run: ls -l
     - name: dir infos
-        run: pwd
+      run: pwd
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
