@@ -19,6 +19,7 @@ jobs:
         ACCOUNT_NAME: ${{ secrets.ACCOUNT_NAME }}
         KEY: ${{ secrets.KEY }}
         file_name: .env
+        directory: /home/runner/work/BI_NODE_AZURE/BI_NODE_AZURE
 
   build:
 
