@@ -15,9 +15,9 @@ jobs:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
-        STORAGE_CONNECTION_STRING: ${{ secrets.STORAGE_CONNECTION_STRING }}
-        ACCOUNT_NAME: ${{ secrets.ACCOUNT_NAME }}
-        KEY: ${{ secrets.KEY }}
+        envkey_STORAGE_CONNECTION_STRING: ${{ secrets.STORAGE_CONNECTION_STRING }}
+        envkey_ACCOUNT_NAME: ${{ secrets.ACCOUNT_NAME }}
+        envkey_KEY: ${{ secrets.KEY }}
         file_name: .env
         directory: /home/runner/work/BI_NODE_AZURE/BI_NODE_AZURE
 
