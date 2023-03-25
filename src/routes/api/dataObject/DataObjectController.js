@@ -38,9 +38,13 @@ class DataObjectController {
       data = null;
     } else {
       element = req.query.path + "/" + req.params.id;
-      data = req.body.data;
+      if(req.file !== undefined){
+        data = req.file.buffer;
+      }
+      else {
+        data = req.body.data;
+      }
     }
-
     try {
       res.json(await dataObjectImpl.create(element, data));
     } catch (error) {
