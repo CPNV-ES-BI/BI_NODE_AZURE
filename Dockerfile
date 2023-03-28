@@ -25,6 +25,7 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app .
 ENV NODE_ENV=production
 EXPOSE 3000
+RUN npm ci --no-optional && npm prune --production
 RUN chown -R node /usr/src/app \
   && chmod -R 755 /usr/src/app
 USER node
